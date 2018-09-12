@@ -1,5 +1,9 @@
 final: previous:
 
+let
+  inherit (final) callPackage;
+in
+
 {
   buildFlatpak = callPackage (fetchGit {
     url = https://github.com/serokell/nix-flatpak;
