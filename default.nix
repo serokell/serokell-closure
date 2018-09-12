@@ -7,5 +7,5 @@ let
 in
 
 import <nixpkgs> {
-  overlay = [ (import ./pkgs) ];
+  overlays = [ (import ./pkgs) ];
 }
