@@ -22,6 +22,6 @@ in
 
   stackToNix = import (fetchGit {
     url = https://github.com/serokell/stack4nix;
-    rev = "9c8607c95b4a01a9587846d28cb66e35bd3c37f3";
+    rev = "4229799a07ef7d560ba0fa71cff11c01840f27be";
   }) { pkgs = final; };
 }
