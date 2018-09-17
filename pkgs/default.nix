@@ -16,7 +16,7 @@ in
   }) {};
 
   mixToNix = callPackage (fetchGit {
-    url = https://github.com/serokell/nix2mix;
+    url = https://github.com/serokell/mix2nix;
     rev = "2353aac85f7d5923d7da997a353326e18899c595";
   }) {};
 
