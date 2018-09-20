@@ -6,6 +6,6 @@ let
   };
 in
 
-import <nixpkgs> {
+import nixpkgs {
   overlays = [ (import ./pkgs) ];
 }
