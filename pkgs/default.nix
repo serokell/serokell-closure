@@ -7,7 +7,7 @@ in
 {
   buildFlatpak = callPackage (fetchGit {
     url = https://github.com/serokell/nix-flatpak;
-    rev = "1655a3eac9ab3953082bf85ad28c82bc50f8c936";
+    rev = "76dc0f06d21f6063cb7b7d2291b8623da24affa9";
   }) {};
 
   buildMacOSApp = callPackage (fetchGit {
