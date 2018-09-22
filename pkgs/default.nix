@@ -21,7 +21,7 @@ in
     rev = "192f3c22b4270be84aef9176fdf52a41d0d85b32";
   }) {};
 
-  inherit gitignore gitignoreSource gitignoreSourceAux;
+  inherit (gitignore) gitignoreSource gitignoreSourceAux;
 
   mixToNix = callPackage (fetchGit {
     url = https://github.com/serokell/mix2nix;
