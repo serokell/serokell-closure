@@ -2,6 +2,12 @@ final: previous:
 
 let
   inherit (final) callPackage;
+
+  gitignore = import (fetchGit {
+    url = https://github.com/siers/nix-gitignore;
+    ref = "v1.0.2";
+    rev = "d103d389fd814fa2b854b80d5138c95c7cc51dab";
+  }) { inherit (final) lib; };
 in
 
 {
@@ -14,6 +20,8 @@ in
     url = https://github.com/serokell/nix-macos-app;
     rev = "192f3c22b4270be84aef9176fdf52a41d0d85b32";
   }) {};
+
+  inherit gitignore gitignoreSource gitignoreSourceAux;
 
   mixToNix = callPackage (fetchGit {
     url = https://github.com/serokell/mix2nix;
