@@ -1,4 +1,4 @@
-{ stdenvNoCC, writeShellScriptBin, writeText, stdenv, fetchurl, nodejs-10_x }:
+{ stdenvNoCC, writeShellScriptBin, writeText, stdenv, fetchurl, makeWrapper, nodejs-10_x }:
 let
   inherit (builtins) fromJSON toJSON readFile split head elemAt foldl';
 
@@ -25,23 +25,18 @@ let
   '';
   shellWrap = writeShellScriptBin "npm-shell-wrap.sh" ''
     set -e
-    if [ ! -e node_modules/shebangs_patched ]; then
+    if [ ! -e .shebangs_patched ]; then
       ${patchShebangs}/bin/patchShebangs.sh .
-      touch node_modules/shebangs_patched
+      touch .shebangs_patched
     fi
     exec bash "$@"
   '';
 in
 args @ { lockfile, src, buildInputs ? [], ... }:
 let lock = fromJSON (readFile lockfile); in
-stdenv.mkDerivation (args // {
+stdenv.mkDerivation ({
   inherit (lock) version;
   name = "${lock.name}-${lock.version}";
-  inherit src;
-
-  buildInputs = [
-    nodejs-10_x
-  ] ++ buildInputs;
 
   XDG_CONFIG_DIRS = ".";
   NO_UPDATE_NOTIFIER = true;
@@ -60,4 +55,4 @@ stdenv.mkDerivation (args // {
     cp -R node_modules $out/
     makeWrapper ${nodejs-10_x}/bin/npm $out/bin/npm --run "cd $out"
   '';
-})
+} // args // { buildInputs = [ nodejs-10_x makeWrapper ] ++ buildInputs; })
