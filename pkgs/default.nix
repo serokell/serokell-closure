@@ -26,6 +26,17 @@ in
   gitIgnore = root: aux:
     gitignore.gitignoreSourceAux (aux ++ [ ".git" ]) root;
 
+  constGitIgnore = with gitignore; pathname: root: aux:
+    builtins.path {
+      name    = pathname;
+      path    = root;
+      filter  =
+        let ign = lib.toList aux ++ [(root + "/.gitignore")];
+        in  (name: type:
+              gitignoreFilter (gitignoreCompileIgnore ign root) root name type
+              && lib.cleanSourceFilter name type);
+    };
+
   mixToNix = callPackage (fetchGit {
     url = https://github.com/serokell/mix2nix;
     rev = "2353aac85f7d5923d7da997a353326e18899c595";
