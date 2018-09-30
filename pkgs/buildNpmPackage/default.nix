@@ -53,9 +53,9 @@ stdenv.mkDerivation ({
     node ${./mkcache.js} ${npmCacheInput lock}
   '';
   buildPhase = ''
-    eval "$preBuild"
+    runHook preBuild
     npm ci
-    eval "$postBuild"
+    runHook postBuild
   '';
   # make a package .tgz (no way around it)
   npmPackPhase = ''
