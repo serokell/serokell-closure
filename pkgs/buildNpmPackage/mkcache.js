@@ -7,10 +7,10 @@ const {promisify} = require('util')
 module.paths.push(path.join(process.argv[0], "../../lib/node_modules/npm/node_modules"))
 const pacote = require('pacote')
 
-function forall_deps(pkg, fn) {
+function traverseDeps(pkg, fn) {
     Object.values(pkg.dependencies).forEach(dep => {
         if (dep.resolved && dep.integrity) fn(dep)
-        if (dep.dependencies) forall_deps(dep, fn)
+        if (dep.dependencies) traverseDeps(dep, fn)
     })
 }
 
@@ -21,7 +21,7 @@ async function main(lockfile, nix, cache) {
         return [url, manifest._integrity]
     })
     var hashes = new Map(await Promise.all(promises))
-    forall_deps(lockfile, dep => {
+    traverseDeps(lockfile, dep => {
         if (dep.integrity.startsWith("sha1-")) {
             assert(hashes.has(dep.resolved))
             dep.integrity = hashes.get(dep.resolved)

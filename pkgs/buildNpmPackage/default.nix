@@ -1,28 +1,29 @@
 { stdenvNoCC, writeShellScriptBin, writeText, stdenv, fetchurl, makeWrapper, nodejs-10_x }:
+with stdenv.lib;
 let
-  inherit (builtins) fromJSON toJSON readFile split head elemAt foldl';
+  inherit (builtins) fromJSON toJSON split;
 
-  deps-to-fetches = base: deps: builtins.foldl' (a: b: a // (dep-to-fetch b)) base (builtins.attrValues deps);
-  dep-own-fetch = { resolved, integrity, ... }: let
-    ssri = split "-" integrity;
-    hashtype = head ssri;
+  depsToFetches = deps: concatMap depToFetch (attrValues deps);
+  depFetchOwn = { resolved, integrity, ... }: let
+    ssri = split "-" integrity; # standard subresource integrity
+    hashType = head ssri;
     hash = elemAt ssri 2;
-  in {
-    "${resolved}" = fetchurl {
+  in nameValuePair resolved (fetchurl {
       url = resolved;
-      "${hashtype}" = hash;
-    };
-  };
+      "${hashType}" = hash;
+    });
 
-  dep-to-fetch = args @ { resolved ? null, dependencies ? {}, ... }:
-    deps-to-fetches (if isNull resolved then {} else dep-own-fetch args) dependencies;
-  npm-cache-input = lock: writeText "npm-cache-input.json" (toJSON (dep-to-fetch lock));
+  depToFetch = args @ { resolved ? null, dependencies ? {}, ... }:
+    (optional (resolved != null) (depFetchOwn args)) ++ (depsToFetches dependencies);
+
+  npmCacheInput = lock: writeText "npm-cache-input.json" (toJSON (listToAttrs (depToFetch lock)));
 
   patchShebangs = writeShellScriptBin "patchShebangs.sh" ''
     set -e
     source ${stdenvNoCC}/setup
     patchShebangs "$@"
   '';
+
   shellWrap = writeShellScriptBin "npm-shell-wrap.sh" ''
     set -e
     if [ ! -e .shebangs_patched ]; then
@@ -33,26 +34,41 @@ let
   '';
 in
 args @ { lockfile, src, buildInputs ? [], ... }:
-let lock = fromJSON (readFile lockfile); in
+let
+  lock = fromJSON (readFile lockfile);
+in
 stdenv.mkDerivation ({
   inherit (lock) version;
   name = "${lock.name}-${lock.version}";
 
   XDG_CONFIG_DIRS = ".";
   NO_UPDATE_NOTIFIER = true;
-  buildPhase = ''
-    echo making cache
-    node ${./mkcache.js} ${npm-cache-input lock}
-    echo installing
-    npm ci --cache=./npm-cache --offline --script-shell=${shellWrap}/bin/npm-shell-wrap.sh
-    npm prune --production --offline --cache=./npm-cache
-    npm pack --ignore-scripts --offline --cache=./npm-cache
+  preBuildPhases = [ "npmCachePhase" ];
+  preInstallPhases = [ "npmPackPhase" ];
+  npm_config_offline = true;
+  npm_config_script_shell = "${shellWrap}/bin/npm-shell-wrap.sh";
+  npm_config_cache = "./npm-cache";
+  installJavascript = true;
+  npmCachePhase = ''
+    node ${./mkcache.js} ${npmCacheInput lock}
   '';
-
+  buildPhase = ''
+    eval "$preBuild"
+    npm ci
+    eval "$postBuild"
+  '';
+  # make a package .tgz (no way around it)
+  npmPackPhase = ''
+    npm prune --production
+    npm pack --ignore-scripts
+  '';
+  # unpack the .tgz into output directory and add npm wrapper
   installPhase = ''
     mkdir -p $out/bin
     tar xzvf ./${lock.name}-${lock.version}.tgz -C $out --strip-components=1
-    cp -R node_modules $out/
-    makeWrapper ${nodejs-10_x}/bin/npm $out/bin/npm --run "cd $out"
+    if $installJavascript; then
+      cp -R node_modules $out/
+      makeWrapper ${nodejs-10_x}/bin/npm $out/bin/npm --run "cd $out"
+    fi
   '';
 } // args // { buildInputs = [ nodejs-10_x makeWrapper ] ++ buildInputs; })
