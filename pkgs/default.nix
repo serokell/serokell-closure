@@ -20,7 +20,7 @@ in
 
   buildMacOSApp = callPackage (fetchGit {
     url = https://github.com/serokell/nix-macos-app;
-    rev = "192f3c22b4270be84aef9176fdf52a41d0d85b32";
+    rev = "ecd2e85f30033c845ed13c5de85212b8d4d53361";
   }) {};
 
   gitIgnore = root: aux:
