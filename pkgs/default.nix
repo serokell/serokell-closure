@@ -1,7 +1,7 @@
 final: previous:
 
 let
-  inherit (final) callPackage;
+  inherit (final) callPackage runCommand;
 
   gitignore = import (fetchGit {
     url = https://github.com/siers/nix-gitignore;
@@ -36,6 +36,13 @@ in
               gitignoreFilter (gitignoreCompileIgnore ign root) root name type
               && lib.cleanSourceFilter name type);
     };
+
+  darwin = previous.darwin // {
+    security_tool = runCommand "security_tool" {} ''
+      mkdir -p $out/bin
+      ln -s /usr/bin/security $out/bin/security
+    '';
+  };
 
   mixToNix = callPackage (fetchGit {
     url = https://github.com/serokell/mix2nix;
