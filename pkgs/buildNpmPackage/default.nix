@@ -33,7 +33,7 @@ let
     exec bash "$@"
   '';
 in
-args @ { lockfile, src, buildInputs ? [], ... }:
+args @ { lockfile, src, buildInputs ? [], npmFlags ? [], ... }:
 let
   lock = fromJSON (readFile lockfile);
 in
@@ -45,30 +45,30 @@ stdenv.mkDerivation ({
   NO_UPDATE_NOTIFIER = true;
   preBuildPhases = [ "npmCachePhase" ];
   preInstallPhases = [ "npmPackPhase" ];
-  npm_config_offline = true;
-  npm_config_script_shell = "${shellWrap}/bin/npm-shell-wrap.sh";
-  npm_config_cache = "./npm-cache";
   installJavascript = true;
   npmCachePhase = ''
     node ${./mkcache.js} ${npmCacheInput lock}
   '';
   buildPhase = ''
     runHook preBuild
-    npm ci
+    npm ci $npmFlags
     runHook postBuild
   '';
   # make a package .tgz (no way around it)
   npmPackPhase = ''
-    npm prune --production
-    npm pack --ignore-scripts
+    npm prune --production $npmFlags
+    npm pack --ignore-scripts $npmFlags
   '';
   # unpack the .tgz into output directory and add npm wrapper
   installPhase = ''
     mkdir -p $out/bin
     tar xzvf ./${lock.name}-${lock.version}.tgz -C $out --strip-components=1
-    if $installJavascript; then
+    if [ "$installJavascript" -eq "1" ]; then
       cp -R node_modules $out/
       makeWrapper ${nodejs-10_x}/bin/npm $out/bin/npm --run "cd $out"
     fi
   '';
-} // args // { buildInputs = [ nodejs-10_x makeWrapper ] ++ buildInputs; })
+} // args // {
+    buildInputs = [ nodejs-10_x makeWrapper ] ++ buildInputs;
+    npmFlags = [ "--cache=./npm-cache" "--offline" "--script-shell=${shellWrap}/bin/npm-shell-wrap.sh" ] ++ npmFlags;
+  })
