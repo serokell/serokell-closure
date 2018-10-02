@@ -6,7 +6,7 @@ let
   gitignore = import (fetchGit {
     url = https://github.com/siers/nix-gitignore;
     ref = "v1.0.2";
-    rev = "d103d389fd814fa2b854b80d5138c95c7cc51dab";
+    rev = "7a2a637fa4a753a9ca11f60eab52b35241ee3c2f";
   }) { inherit (final) lib; };
 in
 
