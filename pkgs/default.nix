@@ -1,7 +1,7 @@
 final: previous:
 
 let
-  inherit (final) callPackage runCommand;
+  inherit (final) callPackage runCommand lib;
 
   gitignore = import (fetchGit {
     url = https://github.com/siers/nix-gitignore;
