@@ -19,7 +19,7 @@ let
   pkgs = import (fetchGit {
     url = https://github.com/$REPO;
     rev = "$REV";
-    ref = "$(curl -s https://api.github.com/repos/$REPO/tags | jq -r 'map(select(.commit.sha == "'$REV'"))[0].name')"
+    ref = "$(curl -s https://api.github.com/repos/$REPO/tags | jq -r 'map(select(.commit.sha == "'$REV'"))[0].name')";
   });
 in
 EOF
