@@ -16,7 +16,11 @@ in
     rev = "76dc0f06d21f6063cb7b7d2291b8623da24affa9";
   }) {};
 
-  buildNpmPackage = callPackage ./buildNpmPackage {};
+  inherit (callPackage (fetchGit {
+    url = https://github.com/serokell/nix-npm-buildpackage;
+    rev = "918d604bd172760d4b03333b286d284f63671941";
+    ref = "20181120151732";
+  }) {}) buildNpmPackage buildYarnPackage;
 
   buildMacOSApp = callPackage (fetchGit {
     url = https://github.com/serokell/nix-macos-app;
