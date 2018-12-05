@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# set -euo pipefail
+# shellcheck shell=bash
+set -euo pipefail
 [[ ! -z ${DEBUG:-} ]] && set -x
 
 # Override with `NIXPKGS=/path/to/nixpkgs bump-cabal-hashes.sh`
@@ -55,4 +56,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
     git commit ./nixpkgs.nix -m 'Bump nixpkgs'
     git push git@github.com:serokell/serokell-closure.git "$branch_name"
+
+    git tag "$TAG"
+    git push git@github.com:serokell/serokell-closure.git "$TAG"
 fi
