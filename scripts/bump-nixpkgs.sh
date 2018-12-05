@@ -24,4 +24,8 @@ git --no-pager diff ./nixpkgs.nix
 
 echo
 read -p "Are you sure you want to commit this? [y/N]" -n 1 -r
-[[ $REPLY =~ ^[Yy]$ ]] && git commit ./nixpkgs.nix -m "Bump nixpkgs"
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+    git commit ./nixpkgs.nix -m 'Bump nixpkgs'
+    git push git@github.com:serokell/serokell-closure.git "$branch_name"
+fi
