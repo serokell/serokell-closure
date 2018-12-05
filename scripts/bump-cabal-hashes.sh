@@ -9,7 +9,7 @@ TAG=$(date +"%Y%m%d%H%M%S")
 pushd "$NIXPKGS"
 
 REPO=commercialhaskell/all-cabal-hashes
-REV=$(curl -s "https://api.github.com/repos/$REPO/branches/display" | jq -r .commit.sha)
+REV=$(curl -s "https://api.github.com/repos/$REPO/branches/hackage" | jq -r .commit.sha)
 URL="https://github.com/$REPO/archive/$REV.tar.gz"
 SHA256=$(nix-prefetch-url --unpack "$URL")
 
