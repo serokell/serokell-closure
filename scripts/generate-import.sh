@@ -9,7 +9,7 @@ REF=$(curl -s "https://api.github.com/repos/$REPO/tags" | jq -r 'map(select(.com
 if [[ $REF == null ]]; then
     echo "No tag found for $REV."
     # shellcheck disable=SC2016
-    echo 'Create one with: git tag $(date +"%Y%m%d%H%M%S"); git push $_'
+    echo 'Create one with: git tag $(date +"%Y%m%d%H%M%S"); git push origin $_'
     exit 1
 fi
 
