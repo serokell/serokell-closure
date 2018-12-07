@@ -18,7 +18,7 @@ let
   pkgs = import (fetchGit {
     url = https://github.com/$REPO;
     rev = "$REV";
-    ref = $REF;
+    ref = "$REF";
   });
 in
 EOF
