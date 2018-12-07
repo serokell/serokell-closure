@@ -14,11 +14,9 @@ if [[ $REF == null ]]; then
 fi
 
 cat <<EOF
-let
-  pkgs = import (fetchGit {
-    url = https://github.com/$REPO;
-    rev = "$REV";
-    ref = "$REF";
-  });
-in
+import (fetchGit {
+  url = https://github.com/$REPO;
+  rev = "$REV";
+  ref = "$REF";
+})
 EOF
