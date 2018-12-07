@@ -2,6 +2,7 @@ final: previous:
 
 let
   inherit (final) callPackage runCommand lib;
+  inherit (final.stdenv) mkDerivation;
 
   gitignore = import (fetchGit {
     url = https://github.com/siers/nix-gitignore;
@@ -11,6 +12,19 @@ let
 in
 
 {
+  all-cabal-hashes = mkDerivation {
+    name = "all-cabal-hashes.tar.gz";
+
+    src = builtins.fetchurl {
+      url = https://github.com/commercialhaskell/all-cabal-hashes/archive/hackage.tar.gz;
+    };
+
+    phases = [ "buildPhase" ];
+    buildPhase = ''
+      cp -r $src $out
+    '';
+  };
+
   buildFlatpak = callPackage (fetchGit {
     url = https://github.com/serokell/nix-flatpak;
     rev = "76dc0f06d21f6063cb7b7d2291b8623da24affa9";
