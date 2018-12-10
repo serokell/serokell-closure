@@ -8,6 +8,8 @@ let
     ref = "v1.0.2";
     rev = "7a2a637fa4a753a9ca11f60eab52b35241ee3c2f";
   }) { inherit (final) lib; };
+  all-cabal-hashes-component = name: version: type:
+    builtins.fetchurl "https://raw.githubusercontent.com/commercialhaskell/all-cabal-hashes/hackage/${name}/${version}/${name}.${type}";
 in
 
 {
@@ -68,4 +70,12 @@ in
     url = https://github.com/serokell/stack4nix;
     rev = "e227092e52726cfd41cba9930c02691eb6e61864";
   }) { pkgs = final; };
+
+  haskellPackages = previous.haskellPackages.override { overrides = final: previous: {
+    hackage2nix = name: version: final.haskellSrc2nix {
+      name   = "${name}-${version}";
+      sha256 = ''$(sed -e 's/.*"SHA256":"//' -e 's/".*$//' "${all-cabal-hashes-component name version "json"}")'';
+      src    = all-cabal-hashes-component name version "cabal";
+    };
+  };};
 }
