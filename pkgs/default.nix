@@ -68,4 +68,9 @@ in
     url = https://github.com/serokell/stack4nix;
     rev = "e227092e52726cfd41cba9930c02691eb6e61864";
   }) { pkgs = final; };
+
+  # Work around: makeinfo hangs forever when building qemu
+  qemu = previous.qemu.overrideAttrs ( oldAttrs: rec {
+    configureFlags = oldAttrs.configureFlags ++ [ "--disable-docs" ];
+  });
 }
