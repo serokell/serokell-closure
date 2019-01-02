@@ -66,6 +66,10 @@ in
     rev = "a7e109574a84fc0bcf811a5cac7eefb6317d2efa";
   }) {};
 
+  nginxStable = previous.nginxStable.overrideAttrs (super: {
+    patches = (super.patches or []) ++ [./nix-etag-1.15.4.patch];
+  });
+
   stackToNix = import (fetchGit {
     url = https://github.com/serokell/stack4nix;
     rev = "e227092e52726cfd41cba9930c02691eb6e61864";
