@@ -2,7 +2,10 @@
 #! nix-shell -i bash -p yq jq curl
 set -eou pipefail
 [[ ! -z ${DEBUG:-} ]] && set -x
-
+if [[ ! -e ~/.config/hub ]]; then
+    echo "Error: This script requires a working 'hub' setup. Please install it and log in with it" > /dev/stderr
+    exit 1
+fi
 TOKEN="Authorization: token $(yq -r '.["github.com"][0].oauth_token' ~/.config/hub)"
 REPO=serokell/serokell-closure
 REV=$(curl -H "$TOKEN" -s "https://api.github.com/repos/$REPO/branches/master" | jq -r .commit.sha)
