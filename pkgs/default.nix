@@ -71,8 +71,8 @@ in
   });
 
   stackToNix = import (fetchGit {
-    url = https://github.com/serokell/stack4nix;
-    rev = "e227092e52726cfd41cba9930c02691eb6e61864";
+    url = https://github.com/serokell/stack-to-nix;
+    rev = "28e690d3eddd47c59982c7fbf4f950320ff7ff69";
   }) { pkgs = final; };
 
   haskellPackages = previous.haskellPackages.override { overrides = final: previous: {
