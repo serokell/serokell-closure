@@ -20,8 +20,8 @@ in
 
   inherit (callPackage (fetchGit {
     url = https://github.com/serokell/nix-npm-buildpackage;
-    rev = "918d604bd172760d4b03333b286d284f63671941";
-    ref = "20181120151732";
+    rev = "fc42625d30aadb3cefef19184baeba6524631b70";
+    ref = "20190625164951";
   }) {}) buildNpmPackage buildYarnPackage;
 
   buildMacOSApp = callPackage (fetchGit {
