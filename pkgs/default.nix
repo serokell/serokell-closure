@@ -3,16 +3,19 @@ final: previous:
 let
   inherit (final) callPackage runCommand lib;
 
-  gitignore = import (fetchGit {
-    url = https://github.com/siers/nix-gitignore;
-    ref = "v1.0.2";
-    rev = "7a2a637fa4a753a9ca11f60eab52b35241ee3c2f";
-  }) { inherit (final) lib; };
+  srk = import ./lib { pkgs = final; };
+
   all-cabal-hashes-component = name: version: type:
     builtins.fetchurl "https://raw.githubusercontent.com/commercialhaskell/all-cabal-hashes/hackage/${name}/${version}/${name}.${type}";
 in
 
 rec {
+  inherit (srk)
+    checkTrailingWhitespace
+    constGitIgnore
+    gitIgnore
+    runCheck;
+
   buildFlatpak = callPackage (fetchGit {
     url = https://github.com/serokell/nix-flatpak;
     rev = "76dc0f06d21f6063cb7b7d2291b8623da24affa9";
@@ -28,31 +31,6 @@ rec {
     url = https://github.com/serokell/nix-macos-app;
     rev = "ecd2e85f30033c845ed13c5de85212b8d4d53361";
   }) {};
-
-  gitIgnore = root: aux:
-    gitignore.gitignoreSourceAux (aux ++ [ ".git" ]) root;
-
-  # `constGitIgnore pathname root aux` returns a builtins.path
-  # (setting the name to pathname so that the source directory name is
-  # constant and does not depend on the current directory name),
-  # filtering out not just .git directories (using
-  # `lib.cleanSourceFilter`) but also files ignored by git (using
-  # siers' nix-gitignore).  For example, to use the name "fooBar" and
-  # the current directory and not add any additional gitignores
-  # besides those in the .gitignore file, use:
-  #
-  #   constGitIgnore "fooBar" ./. []
-  #
-  constGitIgnore = with gitignore; pathname: root: aux:
-    builtins.path {
-      name    = pathname;
-      path    = root;
-      filter  = name: type:
-        gitignoreFilter (gitignoreCompileIgnore aux root) root name type
-        && lib.cleanSourceFilter name type;
-        # NB: gitignoreCompileIgnore currently adds .gitignore (as
-        # does gitignoreFilterSourceAux), which may be a bug
-    };
 
   darwin = previous.darwin // {
     security_tool = runCommand "security_tool" {} ''
@@ -83,28 +61,4 @@ rec {
     };
   };};
 
-  /*
-  * Run a series of commands only for their exit status, producing an empty
-  * closure.
-  */
-  runCheck = script: src:  runCommand "check" {} ''
-    src="${src}"
-    ${script}
-    touch $out
-  '';
-
-  /*
-  * Check the given target path for files with trailing whitespace, fail if any
-  * are found
-  */
-  checkTrailingWhitespace = runCheck ''
-    files=$(grep --recursive --files-with-matches --binary-files=without-match '[[:blank:]]$' $src || true)
-    if [[ ! -z $files ]];then
-      echo '  Files with trailing whitespace found:'
-      for f in ''${files[*]}; do
-        echo "  * $f" | sed -re "s|$src/||"
-      done
-      exit 1
-    fi
-  '';
 }
