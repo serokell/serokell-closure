@@ -12,7 +12,7 @@ let
     builtins.fetchurl "https://raw.githubusercontent.com/commercialhaskell/all-cabal-hashes/hackage/${name}/${version}/${name}.${type}";
 in
 
-{
+rec {
   buildFlatpak = callPackage (fetchGit {
     url = https://github.com/serokell/nix-flatpak;
     rev = "76dc0f06d21f6063cb7b7d2291b8623da24affa9";
@@ -82,4 +82,29 @@ in
       src    = all-cabal-hashes-component name version "cabal";
     };
   };};
+
+  /*
+  * Run a series of commands only for their exit status, producing an empty
+  * closure.
+  */
+  runCheck = script: src:  runCommand "check" {} ''
+    src="${src}"
+    ${script}
+    touch $out
+  '';
+
+  /*
+  * Check the given target path for files with trailing whitespace, fail if any
+  * are found
+  */
+  checkTrailingWhitespace = runCheck ''
+    files=$(grep --recursive --files-with-matches --binary-files=without-match '[[:blank:]]$' $src || true)
+    if [[ ! -z $files ]];then
+      echo '  Files with trailing whitespace found:'
+      for f in ''${files[*]}; do
+        echo "  * $f" | sed -re "s|$src/||"
+      done
+      exit 1
+    fi
+  '';
 }
