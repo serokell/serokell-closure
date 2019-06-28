@@ -1,0 +1,6 @@
+steps:
+  - command: nix-build release.nix
+    label: Overlay
+    agents:
+      private: true
+      nix: true
