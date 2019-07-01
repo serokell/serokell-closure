@@ -44,10 +44,6 @@ rec {
     rev = "a7e109574a84fc0bcf811a5cac7eefb6317d2efa";
   }) {};
 
-  nginxStable = previous.nginxStable.overrideAttrs (super: {
-    patches = (super.patches or []) ++ [./nix-etag-1.15.4.patch];
-  });
-
   stackToNix = import (fetchGit {
     url = https://github.com/serokell/stack-to-nix;
     rev = "28e690d3eddd47c59982c7fbf4f950320ff7ff69";
