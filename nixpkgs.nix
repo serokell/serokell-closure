@@ -1,5 +1,5 @@
 fetchGit {
   url = https://github.com/serokell/nixpkgs;
-  ref = "20190704163931";
-  rev = "39079c7b4cb7ca561bfc7cf3f613a16f9d033714";
+  ref = "20190705134849";
+  rev = "c389c90f9bd82f37789bc337965e745b29a4248f";
 }
