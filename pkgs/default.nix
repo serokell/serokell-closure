@@ -40,8 +40,8 @@ rec {
   };
 
   mixToNix = callPackage (fetchGit {
-    url = https://github.com/serokell/mix-to-nix;
-    rev = "a7e109574a84fc0bcf811a5cac7eefb6317d2efa";
+    url = https://gitlab.com/transumption/mix-to-nix;
+    rev = "d66c85b45eb9d0c662fe5b32cbcf3fb6529423ca";
   }) {};
 
   stackToNix = import (fetchGit {
