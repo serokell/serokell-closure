@@ -1,0 +1,86 @@
+{
+    "mix-to-nix": {
+        "branch": "master",
+        "description": "Generate sandbox buildable Nix expression from Mix lock file",
+        "homepage": "https://gitlab.com/transumption/mix-to-nix",
+        "owner": "serokell",
+        "repo": "mix-to-nix",
+        "rev": "a7e109574a84fc0bcf811a5cac7eefb6317d2efa",
+        "sha256": "1rrqvmxdl15zskb2pkbh5hzima04sdf9lb7sylcs0kb1scbg2m5l",
+        "type": "tarball",
+        "url": "https://github.com/serokell/mix-to-nix/archive/a7e109574a84fc0bcf811a5cac7eefb6317d2efa.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nix-flatpak": {
+        "branch": "master",
+        "description": "Create Flatpak packages from executable Nix store paths",
+        "homepage": "",
+        "owner": "serokell",
+        "repo": "nix-flatpak",
+        "rev": "76dc0f06d21f6063cb7b7d2291b8623da24affa9",
+        "sha256": "0kxw1mmwnqlmay0k3k0pp5mgyrzy9ypyxqm7hah8yfhj463xjkqn",
+        "type": "tarball",
+        "url": "https://github.com/serokell/nix-flatpak/archive/76dc0f06d21f6063cb7b7d2291b8623da24affa9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nix-gitignore": {
+        "branch": "master",
+        "description": "A nix expression that filters source based on a .gitignore file.",
+        "homepage": "",
+        "owner": "siers",
+        "repo": "nix-gitignore",
+        "rev": "7a2a637fa4a753a9ca11f60eab52b35241ee3c2f",
+        "sha256": "0hrins85jz521nikmrmsgrz8nqawj52j6abxfcwjy38rqixcw8y1",
+        "type": "tarball",
+        "url": "https://github.com/siers/nix-gitignore/archive/7a2a637fa4a753a9ca11f60eab52b35241ee3c2f.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nix-macos-app": {
+        "branch": "master",
+        "description": " Create macOS apps from executable Nix store paths ",
+        "homepage": "",
+        "owner": "serokell",
+        "repo": "nix-macos-app",
+        "rev": "ecd2e85f30033c845ed13c5de85212b8d4d53361",
+        "sha256": "0iq8zalni8jp8qlx1af5krw7vl58v4idn3w4whwz3p89g8gshl3j",
+        "type": "tarball",
+        "url": "https://github.com/serokell/nix-macos-app/archive/ecd2e85f30033c845ed13c5de85212b8d4d53361.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nix-npm-buildpackage": {
+        "branch": "master",
+        "description": "build nix packages that use npm/yarn packages",
+        "homepage": "",
+        "owner": "serokell",
+        "repo": "nix-npm-buildpackage",
+        "rev": "fc42625d30aadb3cefef19184baeba6524631b70",
+        "sha256": "15dq93x460wzyw1irw3i50rrpi16zilgv3r4bswywgfy02rnx3r8",
+        "type": "tarball",
+        "url": "https://github.com/serokell/nix-npm-buildpackage/archive/fc42625d30aadb3cefef19184baeba6524631b70.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "master",
+        "description": "Pinned Nixpkgs tree (master follows nixos-unstable-small, only tags have stable history)",
+        "homepage": "",
+        "owner": "serokell",
+        "repo": "nixpkgs",
+        "rev": "9aa8daa4604ee5c083145100b0d3864734dcfca9",
+        "sha256": "0j3a33ddp8g7wcdw1abc66c397gsl2i3km7h7gda52wxacc2zmw7",
+        "type": "tarball",
+        "url": "https://github.com/serokell/nixpkgs/archive/9aa8daa4604ee5c083145100b0d3864734dcfca9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "stack-to-nix": {
+        "branch": "master",
+        "description": "Generate sandbox buildable Nix expression from Stack file ",
+        "homepage": null,
+        "owner": "serokell",
+        "repo": "stack-to-nix",
+        "rev": "28e690d3eddd47c59982c7fbf4f950320ff7ff69",
+        "sha256": "1xnx5baj3k29iy8ccppn28ayf4483zddrvq6fikfpvblzp5zrnaj",
+        "type": "tarball",
+        "url": "https://github.com/serokell/stack-to-nix/archive/28e690d3eddd47c59982c7fbf4f950320ff7ff69.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

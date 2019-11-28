@@ -1,10 +1,6 @@
 { pkgs }: with pkgs;
 let
-  gitignore = import (fetchGit {
-    url = https://github.com/siers/nix-gitignore;
-    ref = "v1.0.2";
-    rev = "7a2a637fa4a753a9ca11f60eab52b35241ee3c2f";
-  }) { inherit lib; };
+  gitignore = import (import ../../nix/sources.nix).nix-gitignore { inherit lib; };
 in
 {
   /*
