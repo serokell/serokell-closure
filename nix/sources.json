@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "siers",
         "repo": "nix-gitignore",
-        "rev": "7a2a637fa4a753a9ca11f60eab52b35241ee3c2f",
-        "sha256": "0hrins85jz521nikmrmsgrz8nqawj52j6abxfcwjy38rqixcw8y1",
+        "rev": "a4ce20ba415175c77e5ae70461641a57d7527b2f",
+        "sha256": "0i3szbwrynxgvl55qqlzsa040fqd0cnx84bpydai6mdrrsvnj1cg",
         "type": "tarball",
-        "url": "https://github.com/siers/nix-gitignore/archive/7a2a637fa4a753a9ca11f60eab52b35241ee3c2f.tar.gz",
+        "url": "https://github.com/siers/nix-gitignore/archive/a4ce20ba415175c77e5ae70461641a57d7527b2f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nix-macos-app": {
@@ -53,10 +53,10 @@
         "homepage": "",
         "owner": "serokell",
         "repo": "nix-npm-buildpackage",
-        "rev": "fc42625d30aadb3cefef19184baeba6524631b70",
-        "sha256": "15dq93x460wzyw1irw3i50rrpi16zilgv3r4bswywgfy02rnx3r8",
+        "rev": "bff58c5a1db0b5cd1ad4650842a00a5a4b92816b",
+        "sha256": "0m9xaa5bdj5y2l7x7x1zhzy50vzra3y7pr7mvyp5znnz4ckc3ifx",
         "type": "tarball",
-        "url": "https://github.com/serokell/nix-npm-buildpackage/archive/fc42625d30aadb3cefef19184baeba6524631b70.tar.gz",
+        "url": "https://github.com/serokell/nix-npm-buildpackage/archive/bff58c5a1db0b5cd1ad4650842a00a5a4b92816b.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
@@ -65,10 +65,10 @@
         "homepage": "",
         "owner": "serokell",
         "repo": "nixpkgs",
-        "rev": "9aa8daa4604ee5c083145100b0d3864734dcfca9",
-        "sha256": "0j3a33ddp8g7wcdw1abc66c397gsl2i3km7h7gda52wxacc2zmw7",
+        "rev": "ae37a09824fc5d66af36da64f900532b0df5215a",
+        "sha256": "0v4cwbyhja50ksqvcdy1my0kj5033q7wxmplxk82z7k0wf4q2pwn",
         "type": "tarball",
-        "url": "https://github.com/serokell/nixpkgs/archive/9aa8daa4604ee5c083145100b0d3864734dcfca9.tar.gz",
+        "url": "https://github.com/serokell/nixpkgs/archive/ae37a09824fc5d66af36da64f900532b0df5215a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "stack-to-nix": {
