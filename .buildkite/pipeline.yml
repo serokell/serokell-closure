@@ -1,4 +1,9 @@
 steps:
+  - command:
+      - GITHUB_TOKEN=$(cat ~/niv-bot-token) NIX_PATH=nixpkgs=channel:nixos-unstable nix-shell -p jq git gitAndTools.hub niv curl --run "curl https://raw.githubusercontent.com/serokell/scratch/master/scripts/update-niv.sh | bash"
+    label: Update (only schedule)
+    if:
+      build.source == "schedule"
   - command: nix-build release.nix
     label: Overlay
     agents:
